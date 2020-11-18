@@ -27,13 +27,9 @@ async def on_ready():
     print(f"Token:{TOKEN}, GUILD:{GUILD}; Bot is ready to operate!")
 
 
-@client.command()
+"""@client.command()
 async def error(message):
     await message.channel.send(f'There is no such command {message.author.mention}!')
-"""@client.command(name='help', help='Search for a command! Remember that the prefix is %\nCommand list --> '
-                                    '%kill and %search')
-async def stupid_people_needing_help(message):
-    await message.channel.send(f'Still in progress {message.author.mention}!')"""
 
 
 @client.command(name='kill', help='Kills random amounts of people (Still in progress)')
@@ -75,10 +71,10 @@ async def search(message, place_to_search):
             await message.channel.send(f'{message.author.mention} got a {wat_u_get} and a {wat_u_get_2}!')
 
 
-@client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress for storing'
-                                ' your data')
+@client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress'
+                'progress for storing your data')
 async def inventory(message):
-    await message.channel.send(f"Still in progress {message.author.mention}!")
+    await message.channel.send(f"Still in progress {message.author.mention}!")"""
 
 
 client.run(TOKEN)
