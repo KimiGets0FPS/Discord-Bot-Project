@@ -1,25 +1,22 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import Bot
+# from discord.ext.commands import Bot
 
 from dotenv import load_dotenv
+import csv
 import asyncio
 
 import random as r
 import os
 
-
 load_dotenv('bot_token.env')
-TOKEN = os.getenv('BOT_TOKEN')  
+TOKEN = os.getenv('BOT_TOKEN')
 GUILD = os.getenv('BOT_GUILD')
 # print(f"{TOKEN}, {GUILD}")
 
+
 Client = discord.Client()
 client = commands.Bot(command_prefix="%")
-
-
-def get_secondary_command(message):
-    return message
 
 
 @client.event
@@ -27,7 +24,7 @@ async def on_ready():
     print(f"Token:{TOKEN}, GUILD:{GUILD}; Bot is ready to operate!")
 
 
-"""@client.command()
+@client.command()
 async def error(message):
     await message.channel.send(f'There is no such command {message.author.mention}!')
 
@@ -50,12 +47,13 @@ async def kill_things(message):
 async def search(message, place_to_search):
     place_to_search = place_to_search.title()
     things_you_can_get = ['knife', 'coins', 'massive Tongue', 'hair dyer', "crewmate's keycard", 'nothing', 'missile',
-                            'nothing', 'nothing', 'ejected', 'gun']
+                        'nothing', 'nothing', 'ejected', 'gun']
     choices_4_kill = ['Electrical', 'Admin', 'Lower Engine', 'Upper Engine', 'O2', 'Cafeteria', 'Navigation',
-                        'Reactor', 'Medbay', 'Weapons', 'Shields', 'Storage']
-    if place_to_search not in choices_4_kill or place_to_search == None:
-        await message.channel.send(f'What are you even thinking {message.author.mention}, that is not a aviable place to'
-                                    f' search/do your bussiness.')
+                    'Reactor', 'Medbay', 'Weapons', 'Shields', 'Storage']
+    if place_to_search not in choices_4_kill or place_to_search is None:
+        await message.channel.send(
+            f'What are you even thinking {message.author.mention}, that is not a aviable place to'
+            f' search/do your business.')
     else:
         wat_u_get = r.choice(things_you_can_get)
         wat_u_get_2 = r.choice(things_you_can_get)
@@ -69,12 +67,16 @@ async def search(message, place_to_search):
             await message.channel.send(f'{message.author.mention} got nothing!')
         else:
             await message.channel.send(f'{message.author.mention} got a {wat_u_get} and a {wat_u_get_2}!')
+    with open('data_for_user.csv', newline='') as csvfile:
+        inv_reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        for row in inv_reader:
+            print(', '.join(row))
 
 
 @client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress'
-                'progress for storing your data')
+                                'progress for storing your data')
 async def inventory(message):
-    await message.channel.send(f"Still in progress {message.author.mention}!")"""
+    await message.channel.send(f"Still in progress {message.author.mention}!(This'll probably take a while...)")
 
 
 client.run(TOKEN)
