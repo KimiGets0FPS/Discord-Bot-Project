@@ -9,26 +9,31 @@ import asyncio
 import random as r
 import os
 
+data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
+
+
 load_dotenv('bot_token.env')
 TOKEN = os.getenv('BOT_TOKEN')
 GUILD = os.getenv('BOT_GUILD')
-# print(f"{TOKEN}, {GUILD}")
 
 
 Client = discord.Client()
 client = commands.Bot(command_prefix="%")
 
 
+# Boot up signal
 @client.event
 async def on_ready():
-    print(f"Token:{TOKEN}, GUILD:{GUILD}; Bot is ready to operate!")
+    print(f"Token: {len(TOKEN)*'X'}, GUILD:{GUILD}; Bot is ready to operate!")
 
 
+# TODO: FIX ERROR
 @client.command()
 async def error(message):
     await message.channel.send(f'There is no such command {message.author.mention}!')
 
 
+# Kills crewmates
 @client.command(name='kill', help='Kills random amounts of people (Still in progress)')
 async def kill_things(message):
     kills = r.choice([0, 0, 0, 0, 1, 1, 2])
@@ -36,47 +41,51 @@ async def kill_things(message):
         await message.channel.send(f'OOF! Nobody was there {message.author.mention} :(')
     else:
         await message.channel.send(f'\nWow, {message.author.mention} got {kills} kills!')
-    await asyncio.sleep(30)
-    # delay_message = await message.channel.send("You need to wait 30 seconds!")
-    # await delay_message.delete()
 
 
-@client.command(name='search', help="%search (place)\n\nPlace list: Electrical, Admin, Lower Engine, Upper "
+# Finding things
+@client.command(name='search', help="\n\nPlace list: Electrical, Admin, Lower Engine, Upper "
                                     "Engine, O2, Cafeteria, Navigation, Reactor, Medbay, Weapons, Shields, Storage"
                                     "\n\nBased on the map Skield in the real game.")
-async def search(message, place_to_search):
-    place_to_search = place_to_search.title()
+async def search(message, place_to_search=''):
     things_you_can_get = ['knife', 'coins', 'massive Tongue', 'hair dyer', "crewmate's keycard", 'nothing', 'missile',
-                        'nothing', 'nothing', 'ejected', 'gun']
-    choices_4_kill = ['Electrical', 'Admin', 'Lower Engine', 'Upper Engine', 'O2', 'Cafeteria', 'Navigation',
-                    'Reactor', 'Medbay', 'Weapons', 'Shields', 'Storage']
-    if place_to_search not in choices_4_kill or place_to_search is None:
-        await message.channel.send(
-            f'What are you even thinking {message.author.mention}, that is not a aviable place to'
-            f' search/do your business.')
+                          'nothing', 'nothing', 'ejected', 'gun']
+    places = ['Electrical', 'Admin', 'Lower Engine', 'Upper Engine', 'O2', 'Cafeteria', 'Navigation', 'Reactor',
+              'Medbay', 'Weapons', 'Shields', 'Storage']
+    if not place_to_search:
+        await message.channel.send("You have to enter a place you want to search!")
     else:
-        wat_u_get = r.choice(things_you_can_get)
-        wat_u_get_2 = r.choice(things_you_can_get)
-        if wat_u_get == 'ejected' or wat_u_get_2 == 'ejected':
-            await message.channel.send(f"{message.author.mention} got caught doing some 'sus' stuff, and got ejected!")
-        elif wat_u_get == 'nothing':
-            await message.channel.send(f'{message.author.mention} got {wat_u_get_2}')
-        elif wat_u_get_2 == 'nothing':
-            await message.channel.send(f'{message.author.mention} got {wat_u_get}')
-        elif wat_u_get and wat_u_get_2 == 'nothing':
-            await message.channel.send(f'{message.author.mention} got nothing!')
+        if place_to_search and place_to_search.title() in places:
+            wat_u_get = r.choice(things_you_can_get)
+            wat_u_get_2 = r.choice(things_you_can_get)
+
+            if wat_u_get == 'ejected' or wat_u_get_2 == 'ejected':
+                await message.channel.send(f"{message.author.mention} got caught doing some 'sus' stuff, and got ejected!")
+
+            elif wat_u_get == 'nothing':
+                await message.channel.send(f'{message.author.mention} got {wat_u_get_2}')
+
+            elif wat_u_get_2 == 'nothing':
+                await message.channel.send(f'{message.author.mention} got {wat_u_get}')
+
+            elif wat_u_get and wat_u_get_2 == 'nothing':
+                await message.channel.send(f'{message.author.mention} got nothing!')
+
+            else:
+                await message.channel.send(f'{message.author.mention} got a {wat_u_get} and a {wat_u_get_2}!')
+
         else:
-            await message.channel.send(f'{message.author.mention} got a {wat_u_get} and a {wat_u_get_2}!')
-    with open('data_for_user.csv', newline='') as csvfile:
-        inv_reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        for row in inv_reader:
-            print(', '.join(row))
+            await message.channel.send(
+                f'What are you even thinking {message.author.mention}, that is not a aviable place to search/do your '
+                'business.')
 
 
+
+# TODO: MAKE IT WORK
 @client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress'
-                                'progress for storing your data')
+                                 'progress for storing your data')
 async def inventory(message):
-    await message.channel.send(f"Still in progress {message.author.mention}!(This'll probably take a while...)")
+    await message.channel.send(f"Still in progress {message.author.mention}!(This will probably take a while...)")
 
 
 client.run(TOKEN)
