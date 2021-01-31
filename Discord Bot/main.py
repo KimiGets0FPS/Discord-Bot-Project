@@ -3,8 +3,8 @@ from discord.ext import commands
 # from discord.ext.commands import Bot
 
 from dotenv import load_dotenv
-import csv
-import asyncio
+# import csv
+# import asyncio
 
 import random as r
 import os
@@ -24,7 +24,7 @@ client = commands.Bot(command_prefix="%")
 # Boot up signal
 @client.event
 async def on_ready():
-    print(f"Token: {len(TOKEN)*'X'}, GUILD:{GUILD}; Bot is ready to operate!")
+    print(f"Token: {len(TOKEN) * 'X'}, GUILD:{GUILD}; Bot is ready to operate!")
 
 
 # TODO: FIX ERROR
@@ -60,7 +60,8 @@ async def search(message, place_to_search=''):
             wat_u_get_2 = r.choice(things_you_can_get)
 
             if wat_u_get == 'ejected' or wat_u_get_2 == 'ejected':
-                await message.channel.send(f"{message.author.mention} got caught doing some 'sus' stuff, and got ejected!")
+                await message.channel.send(f"{message.author.mention} got caught doing some 'sus' stuff, and got "
+                                           "ejected!")
 
             elif wat_u_get == 'nothing':
                 await message.channel.send(f'{message.author.mention} got {wat_u_get_2}')
@@ -76,9 +77,8 @@ async def search(message, place_to_search=''):
 
         else:
             await message.channel.send(
-                f'What are you even thinking {message.author.mention}, that is not a aviable place to search/do your '
+                f'What are you even thinking {message.author.mention}, that is not a available place to search/do your '
                 'business.')
-
 
 
 # TODO: MAKE IT WORK
@@ -86,6 +86,5 @@ async def search(message, place_to_search=''):
                                  'progress for storing your data')
 async def inventory(message):
     await message.channel.send(f"Still in progress {message.author.mention}!(This will probably take a while...)")
-
 
 client.run(TOKEN)
