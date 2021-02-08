@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import random as r
 import os
 
-data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
+# data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
 
 
 load_dotenv('bot_token.env')
@@ -36,11 +36,14 @@ async def error(message):
 # Kills crewmates
 @client.command(name='kill', help='Kills random amounts of people (Still in progress)')
 async def kill_things(message):
-    kills = r.choice([0, 0, 0, 0, 1, 1, 2])
+    kills = r.choice([0, 0, 0, 1, 1, 2])
     if kills == 0:
         await message.channel.send(f'OOF! Nobody was there {message.author.mention} :(')
     else:
-        await message.channel.send(f'\nWow, {message.author.mention} got {kills} kills!')
+        if kills == 2:
+            await message.channel.send(f"{message.author.mention} got caught getting 2 kills!")
+        else:
+            await message.channel.send(f'\nWow, {message.author.mention} got {kills} kill!')
 
 
 # Finding things
@@ -76,15 +79,13 @@ async def search(message, place_to_search=''):
                 await message.channel.send(f'{message.author.mention} got a {wat_u_get} and a {wat_u_get_2}!')
 
         else:
-            await message.channel.send(
-                f'What are you even thinking {message.author.mention}, that is not a available place to search/do your '
-                'business.')
+            await message.channel.send(f'What are you even thinking {message.author.mention}, '
+                                       'that is not a available place to search/do your business.')
 
 
-# TODO: MAKE IT WORK
-@client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress'
-                                 'progress for storing your data')
-async def inventory(message):
-    await message.channel.send(f"Still in progress {message.author.mention}!(This will probably take a while...)")
+# @client.command(name='inv', help='Use this command to see what is inside your inventory! (Still in progress'
+#                                  'progress for storing your data')
+# async def inventory(message):
+#     await message.channel.send(f"Still in progress {message.author.mention}!(This will probably take a while...)")
 
 client.run(TOKEN)
