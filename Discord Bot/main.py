@@ -14,8 +14,6 @@ import os
 
 load_dotenv('bot_token.env')
 TOKEN = os.getenv('BOT_TOKEN')
-GUILD = os.getenv('BOT_GUILD')
-
 
 Client = discord.Client()
 client = commands.Bot(command_prefix="%")
@@ -24,13 +22,22 @@ client = commands.Bot(command_prefix="%")
 # Boot up signal
 @client.event
 async def on_ready():
-    print(f"Token: {len(TOKEN) * 'X'}, GUILD:{GUILD}; Bot is ready to operate!")
+    print(f"Token: {len(TOKEN) * 'X'}; Bot is ready to operate!")
 
 
-# TODO: FIX ERROR
-@client.command()
-async def error(message):
-    await message.channel.send(f'There is no such command {message.author.mention}!')
+@client.event
+async def on_command_error(ctx, message):
+    if isinstance(message, Exception):
+        await ctx.send(f"There is no such command!")
+    # await message.channel.send(f"There is no such command, {message.author.mention}!")
+
+
+@client.command(name='roll', help='Randomly rolls a dice for ya (numbers 1-6)! Do: roll <number of dices! (optional)>')
+async def roll(message, number=1):
+    rolls = []
+    for i in range(number):
+        rolls.append(str(r.randint(1, 6)))
+    await message.channel.send(f"{message.author.mention}, your numbers are: {', '.join(rolls)}")
 
 
 # Kills crewmates
@@ -51,7 +58,8 @@ async def kill_things(message):
                                     "Engine, O2, Cafeteria, Navigation, Reactor, Medbay, Weapons, Shields, Storage"
                                     "\n\nBased on the map Skield in the real game.")
 async def search(message, place_to_search=''):
-    things_you_can_get = ['knife', 'coins', 'massive Tongue', 'hair dyer', "crewmate's keycard", 'nothing', 'missile',
+    things_you_can_get = ['knife', 'coins', 'massive Tongue', 'hair dyer', "crewmate's keycard", 'nothing',
+                          'missile',
                           'nothing', 'nothing', 'ejected', 'gun']
     places = ['Electrical', 'Admin', 'Lower Engine', 'Upper Engine', 'O2', 'Cafeteria', 'Navigation', 'Reactor',
               'Medbay', 'Weapons', 'Shields', 'Storage']
