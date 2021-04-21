@@ -29,10 +29,26 @@ async def on_command_error(ctx, message):
         await ctx.send(f"There is no such command!")
 
 
+def bad_words() -> list[str]:
+    file = open("Bad_Words.txt", 'r')
+    bad = []
+    for i in file.read():
+        bad.append(i)
+    for i in bad:
+        temp = ''
+        if i == '\n':
+            bad.append(temp)
+        else:
+            temp += i
+    return bad
+
+
 @client.event
-async def bad_word(message):
-    message.delete()
-    await message.channel.send(f"{message.author.mention} that word isn't allowed here!")
+async def on_message(message):
+    words_bad = bad_words()
+    if message in words_bad:
+        await message.channel.send(f"{message.author.mention} that words isn't allowed here!")
+    # return 0
 
 
 @client.command(name='dice', help='Randomly rolls a dice for you(numbers 1-6)! Do: %roll <number of dices! (optional, '
@@ -59,18 +75,19 @@ async def random(message):
 @client.command(name='youtube', help='Gives you the link for my Youtube Channel!')
 async def youtube(message):
     await message.channel.send(f"{message.author.mention} here is the Youtube link:"
-                               f"\nhttps://www.youtube.com/channel/UC9J0m0MVZvpa27R8iMnL9bg")
+                               f"/n https://www.youtube.com/channel/UC9J0m0MVZvpa27R8iMnL9bg")
 
 
 @client.command(name='patreon', help='Gives you the link for my Patreon page!')
 async def patreon(message):
     await message.channel.send(f"{message.author.mention} here is the Patreon link:"
-                               f"\nhttps://www.patreon.com/KimiGets0FPS?fan_landing=true")
+                               f"/n https://www.patreon.com/KimiGets0FPS?fan_landing=true")
 
 
 @client.command(name='twitter', help='Gives you the link for my Twitter! Follow me!')
 async def twitter(message):
     await message.channel.send(f"{message.author.mention} here is the Twitter link:"
-                               f"\nhttps://twitter.com/K0fps")
+                               f"/n https://twitter.com/K0fps")
+
 
 client.run(TOKEN)
