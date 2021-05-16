@@ -48,7 +48,6 @@ async def on_message(message):
     words_bad = bad_words()
     if message in words_bad:
         await message.channel.send(f"{message.author.mention} that words isn't allowed here!")
-    # return 0
 
 
 @client.command(name='dice', help='Randomly rolls a dice for you(numbers 1-6)! Do: %roll <number of dices! (optional, '
