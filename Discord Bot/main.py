@@ -6,12 +6,15 @@ from dotenv import load_dotenv
 
 import random as r
 import os
+import re
+import string
 
 # data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
 
 
 load_dotenv('bot_token.env')
 TOKEN = os.getenv('BOT_TOKEN')
+ID = os.getenv('BOT_ID')
 
 Client = discord.Client()
 client = commands.Bot(command_prefix="%")
@@ -29,25 +32,26 @@ async def on_command_error(ctx, message):
         await ctx.send(f"There is no such command!")
 
 
-def bad_words() -> list[str]:
-    file = open("Bad_Words.txt", 'r')
-    bad = []
-    for i in file.read():
-        bad.append(i)
-    for i in bad:
-        temp = ''
-        if i == '\n':
-            bad.append(temp)
-        else:
-            temp += i
-    return bad
+with open('badwords.txt') as file:
+    file = file.read().split()
 
 
 @client.event
-async def on_message(message):
-    words_bad = bad_words()
-    if message in words_bad:
-        await message.channel.send(f"{message.author.mention} that words isn't allowed here!")
+async def on_message(ctx, message):
+    for channel in ctx.guild.channels:
+        if channel.name == 'my-bot':
+            channel = channel.id
+    # channel = client.get_channel('my-bot')
+    my_bot = client.get_user(int(ID))
+    # .. some custom embed ..
+
+    if message.author is my_bot:
+        return
+
+    for bad_word in file:
+        if bad_word in message.content.lower():
+            await message.delete()
+            await message.channel.send(f"{message.author.mention} That word isn't allowed!")
 
 
 @client.command(name='dice', help='Randomly rolls a dice for you(numbers 1-6)! Do: %roll <number of dices! (optional, '
