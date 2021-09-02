@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 
 import random as r
 import os
-import re
-import string
+# import re
+# import string
 
 # data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
 
@@ -17,7 +17,7 @@ TOKEN = os.getenv('BOT_TOKEN')
 ID = os.getenv('BOT_ID')
 
 Client = discord.Client()
-client = commands.Bot(command_prefix="%")
+client = commands.Bot(command_prefix="-")
 
 
 # Boot up signal
@@ -37,13 +37,11 @@ with open('badwords.txt') as file:
 
 
 @client.event
-async def on_message(ctx, message):
-    for channel in ctx.guild.channels:
-        if channel.name == 'my-bot':
-            channel = channel.id
-    # channel = client.get_channel('my-bot')
-    my_bot = client.get_user(int(ID))
-    # .. some custom embed ..
+async def on_message(message):
+    # for channel in ctx.guild.channels:
+    #     if channel.name == 'my-bot':
+    #         channel = channel.id
+    my_bot = client.get_channel(772581444010115092)
 
     if message.author is my_bot:
         return
