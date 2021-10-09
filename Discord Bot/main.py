@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 
 import random as r
 import os
-# import re
-# import string
 
 # data = open('C:/Users/zhewe/Coding Projects/Discord-Bot-Project/Discord Bot/data_for_users.csv')
 
@@ -35,13 +33,11 @@ with open('badwords.txt') as file:
     file = file.read().split()
 
 
-# @client.event
-# async def on_message(message):
-#     with open('badWords.txt') as BadWords:
-#         if message.content in BadWords.read():
-#             await message.delete()
-#             await message.channel.send(f"No bad words {message.author.mention}!")
-    # await ctx.process_commands(message)
+@client.command(name='bet', help='Bet against your opponent!')
+async def bet(message):
+    message.channel.send(f"{message.author.mention} got {r.randint(0, 100)}"
+                         f" and his/her opponent got {r.randint(0, 100)}!")
+    return
 
 
 @client.command(name='dice', help='Randomly rolls a dice for you(numbers 1-6)! Do: %roll <number of dices! (optional, '
@@ -58,7 +54,7 @@ async def dice(message, number=1):
         await message.channel.send(f"{message.author.mention}, your numbers are: {', '.join(rolls)}")
 
 
-@client.command(name='slap', help='FUN! Slapping people is disrespectful, but it sure is FUN')
+@client.command(name='slap', help='FUN! Slapping people is disrespectful, but it sure is FUN!')
 async def slap(message, victim):
     if victim:
         await message.send(f'{message.author.mention} just slapped {victim}!')
@@ -67,15 +63,10 @@ async def slap(message, victim):
 
 
 @client.command(name="ping", help="Hey! What's your ping?")
-async def ping(ctx: commands.Context):
+async def ping(ctx):
     await ctx.send(f"Pong! {round(client.latency * 1000)}ms")
 
-
-@client.command(name='random', help='Chooses who can go first for you! Whoever gets the bigger the number, the person '
-                                    'who goes first! Do: %random! (Warning: you can only do this with 2 people!')
-async def random(message):
-    await message.channel.send(f"{message.author.mention} got {r.randint(1, 100)}, and your opponent got "
-                               f"{r.randint(1, 100)}")
+# I must get clout
 
 
 @client.command(name='youtube', help='Gives you the link for my Youtube Channel!')
